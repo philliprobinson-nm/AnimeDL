@@ -119,6 +119,12 @@ namespace AnimeDL
 
             foreach (var episode in selEpisodes)
             {
+                if (string.IsNullOrEmpty(episode.EpisodeId))
+                {
+                    Debug.WriteLine("Episode ID is null or empty.");
+                    continue;
+                }
+
                 UpdateStatus($"Downloading episode {i} of {EpisodeCount}...");
                 var streamResponse = await animeService.GetEpisodeStreamAsync(episode.EpisodeId);
                 if (streamResponse?.Data?.Sources != null)
