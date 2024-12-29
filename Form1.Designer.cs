@@ -44,22 +44,37 @@
             label1 = new Label();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            button1 = new Button();
             toolStripProgressBar1 = new ToolStripProgressBar();
+            button1 = new Button();
+            tabControl1 = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
+            groupBox2 = new GroupBox();
+            txtFFmpegPath = new TextBox();
+            groupBox1 = new GroupBox();
+            label6 = new Label();
+            txtAniwatchPort = new TextBox();
+            txtAniwatchAddress = new TextBox();
+            cmbAniwatchProtocol = new ComboBox();
             grpDetails.SuspendLayout();
             statusStrip1.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
             SuspendLayout();
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(12, 12);
+            txtSearch.Location = new Point(6, 6);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(250, 23);
             txtSearch.TabIndex = 0;
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(268, 12);
+            btnSearch.Location = new Point(262, 6);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(75, 23);
             btnSearch.TabIndex = 1;
@@ -70,7 +85,7 @@
             // lstSearchResults
             // 
             lstSearchResults.FormattingEnabled = true;
-            lstSearchResults.Location = new Point(12, 41);
+            lstSearchResults.Location = new Point(6, 35);
             lstSearchResults.Name = "lstSearchResults";
             lstSearchResults.Size = new Size(331, 94);
             lstSearchResults.Sorted = true;
@@ -80,7 +95,7 @@
             // lstEpisodes
             // 
             lstEpisodes.FormattingEnabled = true;
-            lstEpisodes.Location = new Point(12, 141);
+            lstEpisodes.Location = new Point(6, 135);
             lstEpisodes.Name = "lstEpisodes";
             lstEpisodes.SelectionMode = SelectionMode.MultiExtended;
             lstEpisodes.Size = new Size(331, 94);
@@ -97,7 +112,7 @@
             grpDetails.Controls.Add(label3);
             grpDetails.Controls.Add(label2);
             grpDetails.Controls.Add(label1);
-            grpDetails.Location = new Point(349, 12);
+            grpDetails.Location = new Point(343, 6);
             grpDetails.Name = "grpDetails";
             grpDetails.Size = new Size(331, 123);
             grpDetails.TabIndex = 4;
@@ -189,9 +204,9 @@
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1, toolStripProgressBar1 });
             statusStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            statusStrip1.Location = new Point(0, 244);
+            statusStrip1.Location = new Point(0, 287);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(692, 22);
+            statusStrip1.Size = new Size(715, 22);
             statusStrip1.TabIndex = 5;
             statusStrip1.Text = "statusStrip1";
             // 
@@ -201,9 +216,15 @@
             toolStripStatusLabel1.Size = new Size(118, 17);
             toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
+            // toolStripProgressBar1
+            // 
+            toolStripProgressBar1.Alignment = ToolStripItemAlignment.Right;
+            toolStripProgressBar1.Name = "toolStripProgressBar1";
+            toolStripProgressBar1.Size = new Size(100, 16);
+            // 
             // button1
             // 
-            button1.Location = new Point(605, 212);
+            button1.Location = new Point(599, 206);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 6;
@@ -211,30 +232,134 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // toolStripProgressBar1
+            // tabControl1
             // 
-            toolStripProgressBar1.Alignment = ToolStripItemAlignment.Right;
-            toolStripProgressBar1.Name = "toolStripProgressBar1";
-            toolStripProgressBar1.Size = new Size(100, 16);
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Location = new Point(12, 12);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(692, 267);
+            tabControl1.TabIndex = 7;
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(txtSearch);
+            tabPage1.Controls.Add(button1);
+            tabPage1.Controls.Add(lstSearchResults);
+            tabPage1.Controls.Add(lstEpisodes);
+            tabPage1.Controls.Add(grpDetails);
+            tabPage1.Controls.Add(btnSearch);
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(684, 239);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Main";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Controls.Add(groupBox2);
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(684, 239);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Settings";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(txtFFmpegPath);
+            groupBox2.Location = new Point(6, 72);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(672, 60);
+            groupBox2.TabIndex = 2;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "FFmpeg";
+            // 
+            // txtFFmpegPath
+            // 
+            txtFFmpegPath.Location = new Point(6, 22);
+            txtFFmpegPath.Name = "txtFFmpegPath";
+            txtFFmpegPath.Size = new Size(660, 23);
+            txtFFmpegPath.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(txtAniwatchPort);
+            groupBox1.Controls.Add(txtAniwatchAddress);
+            groupBox1.Controls.Add(cmbAniwatchProtocol);
+            groupBox1.Location = new Point(6, 6);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(340, 60);
+            groupBox1.TabIndex = 1;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "aniwatch-api";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(265, 25);
+            label6.Name = "label6";
+            label6.Size = new Size(10, 15);
+            label6.TabIndex = 3;
+            label6.Text = ":";
+            // 
+            // txtAniwatchPort
+            // 
+            txtAniwatchPort.Location = new Point(281, 22);
+            txtAniwatchPort.Name = "txtAniwatchPort";
+            txtAniwatchPort.Size = new Size(53, 23);
+            txtAniwatchPort.TabIndex = 2;
+            // 
+            // txtAniwatchAddress
+            // 
+            txtAniwatchAddress.Location = new Point(76, 22);
+            txtAniwatchAddress.Name = "txtAniwatchAddress";
+            txtAniwatchAddress.Size = new Size(183, 23);
+            txtAniwatchAddress.TabIndex = 1;
+            // 
+            // cmbAniwatchProtocol
+            // 
+            cmbAniwatchProtocol.FormattingEnabled = true;
+            cmbAniwatchProtocol.Items.AddRange(new object[] { "http://", "https://" });
+            cmbAniwatchProtocol.Location = new Point(6, 22);
+            cmbAniwatchProtocol.Name = "cmbAniwatchProtocol";
+            cmbAniwatchProtocol.Size = new Size(64, 23);
+            cmbAniwatchProtocol.TabIndex = 0;
+            //
+            // SettingsFieldChanged
+            //
+            txtAniwatchPort.TextChanged += SettingsFieldChanged;
+            txtAniwatchAddress.TextChanged += SettingsFieldChanged;
+            cmbAniwatchProtocol.SelectedIndexChanged += SettingsFieldChanged;
+            txtFFmpegPath.TextChanged += SettingsFieldChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(692, 266);
-            Controls.Add(button1);
+            ClientSize = new Size(715, 309);
+            Controls.Add(tabControl1);
             Controls.Add(statusStrip1);
-            Controls.Add(grpDetails);
-            Controls.Add(btnSearch);
-            Controls.Add(txtSearch);
-            Controls.Add(lstEpisodes);
-            Controls.Add(lstSearchResults);
             Name = "Form1";
             Text = "Form1";
             grpDetails.ResumeLayout(false);
             grpDetails.PerformLayout();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage1.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -259,5 +384,15 @@
         private ToolStripStatusLabel toolStripStatusLabel1;
         private Button button1;
         private ToolStripProgressBar toolStripProgressBar1;
+        private TabControl tabControl1;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private GroupBox groupBox1;
+        private Label label6;
+        private TextBox txtAniwatchPort;
+        private TextBox txtAniwatchAddress;
+        private ComboBox cmbAniwatchProtocol;
+        private GroupBox groupBox2;
+        private TextBox txtFFmpegPath;
     }
 }

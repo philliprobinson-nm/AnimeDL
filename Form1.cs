@@ -1,18 +1,92 @@
+using System.Configuration;
 using System.Diagnostics;
 using System.Net;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AnimeDL
 {
     public partial class Form1 : Form
     {
-        private string baseUrl = "http://192.168.1.30:4000/api/v2/hianime/";
+        private IConfigurationRoot configuration;
+
         private string saveDirectory;
 
         public Form1()
         {
             InitializeComponent();
+            LoadSettings();
             toolStripStatusLabel1.Text = "";
+        }
+
+        private void LoadSettings()
+        {
+            var settingsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
+
+            if (!File.Exists(settingsFilePath))
+            {
+                // Create default settings
+                var defaultSettings = new
+                {
+                    AniwatchSettings = new
+                    {
+                        Protocol = "http://",
+                        Address = "localhost",
+                        Port = "4000"
+                    },
+                    FFmpeg = new
+                    {
+                        Path = "C:\\ffmpeg\\bin\\ffmpeg.exe"
+                    }
+                };
+
+                var defaultJson = System.Text.Json.JsonSerializer.Serialize(defaultSettings, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(settingsFilePath, defaultJson);
+            }
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("settings.json", optional: true, reloadOnChange: true);
+
+            configuration = builder.Build();
+
+            var aniwatchSettings = configuration.GetSection("AniwatchSettings");
+            cmbAniwatchProtocol.Text = aniwatchSettings["Protocol"];
+            txtAniwatchAddress.Text = aniwatchSettings["Address"];
+            txtAniwatchPort.Text = aniwatchSettings["Port"];
+
+            var ffmpegSettings = configuration.GetSection("FFmpeg");
+            txtFFmpegPath.Text = ffmpegSettings["Path"];
+        }
+
+        private void SettingsFieldChanged(object sender, EventArgs e)
+        {
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
+            var aniwatchSettings = new
+            {
+                Protocol = cmbAniwatchProtocol.Text,
+                Address = txtAniwatchAddress.Text,
+                Port = txtAniwatchPort.Text
+            };
+
+            var ffmpegSettings = new
+            {
+                Path = txtFFmpegPath.Text
+            };
+
+            var settings = new
+            {
+                AniwatchSettings = aniwatchSettings,
+                FFmpeg = ffmpegSettings
+            };
+
+            var json = System.Text.Json.JsonSerializer.Serialize(settings, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText("settings.json", json);
         }
 
         private void UpdateStatus(string status)
@@ -31,9 +105,13 @@ namespace AnimeDL
 
         private async Task SearchAnimeAsync(string query)
         {
+            var protocol = configuration["AniwatchSettings:Protocol"];
+            var address = configuration["AniwatchSettings:Address"];
+            var port = configuration["AniwatchSettings:Port"];
+            string url = $"{protocol}{address}:{port}/api/v2/hianime/search?q={query}";
+
             using (HttpClient client = new HttpClient())
             {
-                string url = $"{baseUrl}search?q={query}";
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
@@ -63,9 +141,13 @@ namespace AnimeDL
 
         private async Task SearchAnimeEpisodesAsync(string id)
         {
+            var protocol = configuration["AniwatchSettings:Protocol"];
+            var address = configuration["AniwatchSettings:Address"];
+            var port = configuration["AniwatchSettings:Port"];
+            string url = $"{protocol}{address}:{port}/api/v2/hianime/anime/{id}/episodes";
+
             using (HttpClient client = new HttpClient())
             {
-                string url = $"{baseUrl}anime/{id}/episodes";
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
@@ -185,7 +267,7 @@ namespace AnimeDL
 
         private async Task DownloadVideoAsync(string url, string outputPath)
         {
-            var ffmpegPath = "C:\\Users\\phillip\\AppData\\Local\\Microsoft\\WinGet\\Packages\\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-7.1-full_build\\bin\\ffmpeg.exe"; // Ensure ffmpeg is installed and available in PATH
+            var ffmpegPath = configuration["FFmpeg:Path"]; // Accessing the FFmpeg path from settings
             var processInfo = new ProcessStartInfo
             {
                 FileName = ffmpegPath,
