@@ -199,6 +199,8 @@ namespace AnimeDL
                 return;
             }
 
+            this.Enabled = false;
+
             using (var folderDialog = new FolderBrowserDialog())
             {
                 if (folderDialog.ShowDialog() == DialogResult.OK)
@@ -221,6 +223,8 @@ namespace AnimeDL
                 await DownloadAnimeEpisode(episode);
                 UpdateStatus($"Downloading episode {i++} of {EpisodeCount}... Complete!");
             }
+
+            this.Enabled = true;
         }
 
         private async Task DownloadAnimeEpisode(EpisodesDetails episode)
@@ -232,7 +236,6 @@ namespace AnimeDL
 
             using (HttpClient client = new HttpClient())
             {
-                string url = $"{baseUrl}episode/sources?animeEpisodeId={episode.episodeId}&category=dub";
                 HttpResponseMessage response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
