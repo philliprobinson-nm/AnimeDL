@@ -32,6 +32,10 @@ namespace AnimeDL
                     FFmpeg = new
                     {
                         Path = "C:\\ffmpeg\\bin\\ffmpeg.exe"
+                    },
+                    General = new
+                    {
+                        DefaultLanguage = "Dub"
                     }
                 };
 
@@ -46,7 +50,7 @@ namespace AnimeDL
             return builder.Build();
         }
 
-        public static void SaveSettings(string protocol, string address, string port, string ffmpegPath)
+        public static void SaveSettings(string protocol, string address, string port, string ffmpegPath, string defaultLanguage)
         {
             var aniwatchSettings = new
             {
@@ -60,10 +64,16 @@ namespace AnimeDL
                 Path = ffmpegPath
             };
 
+            var generalSettings = new
+            {
+                DefaultLanguage = defaultLanguage
+            };
+
             var settings = new
             {
                 AniwatchSettings = aniwatchSettings,
-                FFmpeg = ffmpegSettings
+                FFmpeg = ffmpegSettings,
+                General = generalSettings
             };
 
             var json = System.Text.Json.JsonSerializer.Serialize(settings, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });

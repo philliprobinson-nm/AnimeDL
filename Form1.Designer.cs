@@ -48,7 +48,11 @@
             BtnDownload = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            cmbLanguage = new ComboBox();
             tabPage2 = new TabPage();
+            groupBox3 = new GroupBox();
+            cmbDefaultLanguage = new ComboBox();
+            label7 = new Label();
             groupBox2 = new GroupBox();
             txtFFmpegPath = new TextBox();
             groupBox1 = new GroupBox();
@@ -61,6 +65,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -230,7 +235,7 @@
             BtnDownload.TabIndex = 6;
             BtnDownload.Text = "Download";
             BtnDownload.UseVisualStyleBackColor = true;
-            BtnDownload.Click += this.BtnDownload_Click;
+            BtnDownload.Click += BtnDownload_Click;
             // 
             // tabControl1
             // 
@@ -244,6 +249,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(cmbLanguage);
             tabPage1.Controls.Add(txtSearch);
             tabPage1.Controls.Add(BtnDownload);
             tabPage1.Controls.Add(LsbSearchResults);
@@ -258,8 +264,18 @@
             tabPage1.Text = "Main";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // cmbLanguage
+            // 
+            cmbLanguage.FormattingEnabled = true;
+            cmbLanguage.Items.AddRange(new object[] { "Sub", "Dub" });
+            cmbLanguage.Location = new Point(472, 206);
+            cmbLanguage.Name = "cmbLanguage";
+            cmbLanguage.Size = new Size(121, 23);
+            cmbLanguage.TabIndex = 7;
+            // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(groupBox3);
             tabPage2.Controls.Add(groupBox2);
             tabPage2.Controls.Add(groupBox1);
             tabPage2.Location = new Point(4, 24);
@@ -269,6 +285,36 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Settings";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(cmbDefaultLanguage);
+            groupBox3.Controls.Add(label7);
+            groupBox3.Location = new Point(6, 138);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(672, 95);
+            groupBox3.TabIndex = 3;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "General";
+            // 
+            // cmbDefaultLanguage
+            // 
+            cmbDefaultLanguage.FormattingEnabled = true;
+            cmbDefaultLanguage.Items.AddRange(new object[] { "Sub", "Dub" });
+            cmbDefaultLanguage.Location = new Point(115, 22);
+            cmbDefaultLanguage.Name = "cmbDefaultLanguage";
+            cmbDefaultLanguage.Size = new Size(61, 23);
+            cmbDefaultLanguage.TabIndex = 1;
+            cmbDefaultLanguage.SelectedIndexChanged += SettingsFieldChanged;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(6, 25);
+            label7.Name = "label7";
+            label7.Size = new Size(103, 15);
+            label7.TabIndex = 0;
+            label7.Text = "Default Language:";
             // 
             // groupBox2
             // 
@@ -353,6 +399,8 @@
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
@@ -391,5 +439,9 @@
         private ComboBox cmbAniwatchProtocol;
         private GroupBox groupBox2;
         private TextBox txtFFmpegPath;
+        private ComboBox cmbLanguage;
+        private GroupBox groupBox3;
+        private Label label7;
+        private ComboBox cmbDefaultLanguage;
     }
 }

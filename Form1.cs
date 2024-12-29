@@ -32,11 +32,15 @@ namespace AnimeDL
 
             var ffmpegSettings = settingsManager.Configuration.GetSection("FFmpeg");
             txtFFmpegPath.Text = ffmpegSettings["Path"];
+
+            var generalSettings = settingsManager.Configuration.GetSection("General");
+            cmbDefaultLanguage.Text = generalSettings["DefaultLanguage"];
+            cmbLanguage.Text = generalSettings["DefaultLanguage"];
         }
 
         private void SettingsFieldChanged(object sender, EventArgs e)
         {
-            SettingsManager.SaveSettings(cmbAniwatchProtocol.Text, txtAniwatchAddress.Text, txtAniwatchPort.Text, txtFFmpegPath.Text);
+            SettingsManager.SaveSettings(cmbAniwatchProtocol.Text, txtAniwatchAddress.Text, txtAniwatchPort.Text, txtFFmpegPath.Text, cmbDefaultLanguage.Text);
         }
 
         private void UpdateStatus(string status)
@@ -126,7 +130,7 @@ namespace AnimeDL
                 }
 
                 UpdateStatus($"Downloading episode {i} of {EpisodeCount}...");
-                var streamResponse = await animeService.GetEpisodeStreamAsync(episode.EpisodeId);
+                var streamResponse = await animeService.GetEpisodeStreamAsync(episode.EpisodeId, cmbLanguage.Text);
                 if (streamResponse?.Data?.Sources != null)
                 {
                     var masterUrl = streamResponse.Data.Sources.FirstOrDefault()?.Url;
@@ -135,7 +139,7 @@ namespace AnimeDL
                         if (episode.Title != null)
                         {
                             string sanitizedTitle = string.Concat(episode.Title.Split(Path.GetInvalidFileNameChars()));
-                            string outputFileName = $"{lblName.Text} - {episode.Number:D3} - {sanitizedTitle}.mp4";
+                            string outputFileName = $"{lblName.Text} - {episode.Number:D3} - {sanitizedTitle} - {cmbLanguage.Text}.mp4";
                             string outputPath = Path.Combine(saveDirectory, outputFileName);
 
                             if (!File.Exists(outputPath))

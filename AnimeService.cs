@@ -56,12 +56,12 @@ namespace AnimeDL
             }
         }
 
-        public async Task<StreamResponse?> GetEpisodeStreamAsync(string episodeId)
+        public async Task<StreamResponse?> GetEpisodeStreamAsync(string episodeId, string language)
         {
             var protocol = configuration["AniwatchSettings:Protocol"];
             var address = configuration["AniwatchSettings:Address"];
             var port = configuration["AniwatchSettings:Port"];
-            string url = $"{protocol}{address}:{port}/api/v2/hianime/episode/sources?animeEpisodeId={episodeId}&category=dub";
+            string url = $"{protocol}{address}:{port}/api/v2/hianime/episode/sources?animeEpisodeId={episodeId}&category={language.ToLower()}";
 
             using (HttpClient client = new HttpClient())
             {
