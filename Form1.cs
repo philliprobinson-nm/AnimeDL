@@ -11,16 +11,16 @@ namespace AnimeDL
     {
         private IConfigurationRoot configuration;
 
-        private string saveDirectory;
+        private string saveDirectory = string.Empty;
 
         public Form1()
         {
             InitializeComponent();
-            LoadSettings();
+            configuration = LoadSettings();
             toolStripStatusLabel1.Text = "";
         }
 
-        private void LoadSettings()
+        private IConfigurationRoot LoadSettings()
         {
             var settingsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
 
@@ -58,6 +58,8 @@ namespace AnimeDL
 
             var ffmpegSettings = configuration.GetSection("FFmpeg");
             txtFFmpegPath.Text = ffmpegSettings["Path"];
+
+            return builder.Build();
         }
 
         private void SettingsFieldChanged(object sender, EventArgs e)
@@ -118,10 +120,10 @@ namespace AnimeDL
                     string responseData = await response.Content.ReadAsStringAsync();
                     var searchResponse = JsonConvert.DeserializeObject<SearchResponse>(responseData);
 
-                    if (searchResponse?.data?.animes != null && lstSearchResults != null)
+                    if (searchResponse?.Data?.Animes != null && lstSearchResults != null)
                     {
                         lstSearchResults.Items.Clear();
-                        foreach (var anime in searchResponse.data.animes)
+                        foreach (var anime in searchResponse.Data.Animes)
                         {
                             lstSearchResults.Items.Add(anime);
                         }
@@ -154,10 +156,10 @@ namespace AnimeDL
                     string responseData = await response.Content.ReadAsStringAsync();
                     var episodeResponse = JsonConvert.DeserializeObject<EpisodeResponse>(responseData);
 
-                    if (episodeResponse?.data?.episodes != null && lstEpisodes != null)
+                    if (episodeResponse?.Data?.EpisodesDetails != null && lstEpisodes != null)
                     {
                         lstEpisodes.Items.Clear();
-                        foreach (var episode in episodeResponse.data.episodes)
+                        foreach (var episode in episodeResponse.Data.EpisodesDetails)
                         {
                             lstEpisodes.Items.Add(episode);
                         }
@@ -177,16 +179,23 @@ namespace AnimeDL
 
         private async void lstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var model = (SeriesDetails)lstSearchResults.SelectedItem;
+            SeriesDetails? model = (SeriesDetails?)lstSearchResults.SelectedItem;
 
-            lblId.Text = model.id;
-            lblName.Text = model.name;
-            lblSubs.Text = model.episodes.sub.ToString();
-            lblDubs.Text = model.episodes.dub.ToString();
+            if (model == null || string.IsNullOrEmpty(model.Id))
+            {
+                // Handle the case where model or model.Id is null
+                MessageBox.Show("Selected item is invalid.");
+                return;
+            }
 
-            UpdateStatus($"Fetching episodes for {model.name}...");
-            await SearchAnimeEpisodesAsync(model.id);
-            UpdateStatus($"Fetching episodes for {model.name}... Complete!");
+            lblId.Text = model.Id;
+            lblName.Text = model.Name;
+            lblSubs.Text = model.Episodes?.Sub.ToString();
+            lblDubs.Text = model.Episodes?.Dub.ToString();
+
+            UpdateStatus($"Fetching episodes for {model.Name}...");
+            await SearchAnimeEpisodesAsync(model.Id);
+            UpdateStatus($"Fetching episodes for {model.Name}... Complete!");
         }
 
         private async void button1_Click(object sender, EventArgs e)
@@ -232,7 +241,7 @@ namespace AnimeDL
             var protocol = configuration["AniwatchSettings:Protocol"];
             var address = configuration["AniwatchSettings:Address"];
             var port = configuration["AniwatchSettings:Port"];
-            string url = $"{protocol}{address}:{port}/api/v2/hianime/episode/sources?animeEpisodeId={episode.episodeId}&category=dub";
+            string url = $"{protocol}{address}:{port}/api/v2/hianime/episode/sources?animeEpisodeId={episode.EpisodeId}&category=dub";
 
             using (HttpClient client = new HttpClient())
             {
@@ -242,18 +251,26 @@ namespace AnimeDL
                     string responseData = await response.Content.ReadAsStringAsync();
                     var streamResponse = JsonConvert.DeserializeObject<StreamResponse>(responseData);
 
-                    if (streamResponse?.data?.sources != null)
+                    if (streamResponse?.Data?.Sources != null)
                     {
-                        var masterUrl = streamResponse.data.sources.FirstOrDefault()?.url;
+                        var masterUrl = streamResponse.Data.Sources.FirstOrDefault()?.Url;
                         if (!string.IsNullOrEmpty(masterUrl))
                         {
-                            string sanitizedTitle = string.Concat(episode.title.Split(Path.GetInvalidFileNameChars()));
-                            string outputFileName = $"{lblName.Text} - {episode.number:D3} - {sanitizedTitle}.mp4";
-                            string outputPath = Path.Combine(saveDirectory, outputFileName);
-
-                            if (!File.Exists(outputPath))
+                            if (episode.Title != null)
                             {
-                                await DownloadVideoAsync(masterUrl, outputPath);
+                                string sanitizedTitle = string.Concat(episode.Title.Split(Path.GetInvalidFileNameChars()));
+                                string outputFileName = $"{lblName.Text} - {episode.Number:D3} - {sanitizedTitle}.mp4";
+                                string outputPath = Path.Combine(saveDirectory, outputFileName);
+
+                                if (!File.Exists(outputPath))
+                                {
+                                    await DownloadVideoAsync(masterUrl, outputPath);
+                                }
+                            }
+                            else
+                            {
+                                // Handle the case where episode.Title is null
+                                Debug.WriteLine("Episode title is null.");
                             }
                         }
                         else
@@ -316,7 +333,8 @@ namespace AnimeDL
 
         private async Task ReadStreamAsync(StreamReader reader, IProgress<int> progress)
         {
-            string line;
+            string? line; // Allow line to be nullable
+
             TimeSpan totalDuration = TimeSpan.Zero;
 
             while ((line = await reader.ReadLineAsync()) != null)

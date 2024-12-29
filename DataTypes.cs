@@ -1,99 +1,152 @@
-﻿using System.Xml.Linq;
+﻿using Newtonsoft.Json;
 
 namespace AnimeDL
 {
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class SeriesDetails
     {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string poster { get; set; }
-        public EpisodesCount episodes { get; set; }
+        [JsonProperty("id")]
+        public string? Id { get; set; }
+        
+        [JsonProperty("name")]
+        public string? Name { get; set; }
+
+        [JsonProperty("poster")]
+        public string? Poster { get; set; }
+
+        [JsonProperty("episodes")]
+        public EpisodesCount? Episodes { get; set; }
 
         public override string ToString()
         {
-            return name;
+            return Name ?? string.Empty;
         }
     }
 
     public class Series
     {
-        public List<SeriesDetails> animes { get; set; }
+        [JsonProperty("animes")]
+        public List<SeriesDetails>? Animes { get; set; }
     }
 
     public class EpisodesCount
     {
-        public int? sub { get; set; }
-        public int? dub { get; set; }
+        [JsonProperty("sub")]
+        public int? Sub { get; set; }
+
+        [JsonProperty("dub")]
+        public int? Dub { get; set; }
     }
 
     public class SearchResponse
     {
-        public bool success { get; set; }
-        public Series data { get; set; }
+        [JsonProperty("success")]
+        public bool? Success { get; set; }
+
+        [JsonProperty("data")]
+        public Series? Data { get; set; }
     }
 
     public class Episodes
     {
-        public int totalEpisodes { get; set; }
-        public List<EpisodesDetails> episodes { get; set; }
+        [JsonProperty("totalEpisodes")]
+        public int? TotalEpisodes { get; set; }
+
+        [JsonProperty("episodes")]
+        public List<EpisodesDetails>? EpisodesDetails { get; set; }
     }
 
     public class EpisodesDetails
     {
-        public string title { get; set; }
-        public string episodeId { get; set; }
-        public int number { get; set; }
-        public bool isFiller { get; set; }
+        [JsonProperty("title")]
+        public string? Title { get; set; }
+
+        [JsonProperty("episodeId")]
+        public string? EpisodeId { get; set; }
+
+        [JsonProperty("number")]
+        public int? Number { get; set; }
+
+        [JsonProperty("isFiller")]
+        public bool? IsFiller { get; set; }
+
         public override string ToString()
         {
-            return $"{number} - {title}";
+            return $"{Number} - {Title}";
         }
     }
 
     public class EpisodeResponse
     {
-        public bool success { get; set; }
-        public Episodes data { get; set; }
+        [JsonProperty("success")]
+        public bool? Success { get; set; }
+
+        [JsonProperty("data")]
+        public Episodes? Data { get; set; }
     }
 
     public class StreamDetails
     {
-        public List<Track> tracks { get; set; }
-        public Intro intro { get; set; }
-        public Outro outro { get; set; }
-        public List<Source> sources { get; set; }
-        public int anilistID { get; set; }
-        public int malID { get; set; }
+        [JsonProperty("tracks")]
+        public List<Track>? Tracks { get; set; }
+
+        [JsonProperty("intro")]
+        public Intro? Intro { get; set; }
+
+        [JsonProperty("outro")]
+        public Outro? Outro { get; set; }
+
+        [JsonProperty("sources")]
+        public List<Source>? Sources { get; set; }
+
+        [JsonProperty("anilistID")]
+        public int? AnilistID { get; set; }
+
+        [JsonProperty("malID")]
+        public int? MalID { get; set; }
     }
 
     public class Intro
     {
-        public int start { get; set; }
-        public int end { get; set; }
+        [JsonProperty("start")]
+        public int? Start { get; set; }
+
+        [JsonProperty("end")]
+        public int? End { get; set; }
     }
 
     public class Outro
     {
-        public int start { get; set; }
-        public int end { get; set; }
+        [JsonProperty("start")]
+        public int? Start { get; set; }
+
+        [JsonProperty("end")]
+        public int? End { get; set; }
     }
 
     public class StreamResponse
     {
-        public bool success { get; set; }
-        public StreamDetails data { get; set; }
+        [JsonProperty("success")]
+        public bool? Success { get; set; }
+
+        [JsonProperty("data")]
+        public StreamDetails? Data { get; set; }
     }
 
     public class Source
     {
-        public string url { get; set; }
-        public string type { get; set; }
+        [JsonProperty("url")]
+        public string? Url { get; set; }
+
+        [JsonProperty("type")]
+        public string? Type { get; set; }
     }
 
     public class Track
     {
-        public string file { get; set; }
-        public string kind { get; set; }
+        [JsonProperty("file")]
+        public string? File { get; set; }
+
+        [JsonProperty("kind")]
+        public string? Kind { get; set; }
     }
 }
