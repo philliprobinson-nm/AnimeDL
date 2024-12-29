@@ -14,7 +14,7 @@ namespace AnimeDL
 
         public IConfigurationRoot Configuration => configuration;
 
-        private IConfigurationRoot LoadSettings()
+        private static IConfigurationRoot LoadSettings()
         {
             var settingsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
 
@@ -46,7 +46,7 @@ namespace AnimeDL
             return builder.Build();
         }
 
-        public void SaveSettings(string protocol, string address, string port, string ffmpegPath)
+        public static void SaveSettings(string protocol, string address, string port, string ffmpegPath)
         {
             var aniwatchSettings = new
             {

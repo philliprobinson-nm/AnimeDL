@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             txtSearch = new TextBox();
-            btnSearch = new Button();
-            lstSearchResults = new ListBox();
-            lstEpisodes = new ListBox();
+            BtnSearch = new Button();
+            LsbSearchResults = new ListBox();
+            LsbEpisodes = new ListBox();
             grpDetails = new GroupBox();
             lblDubs = new Label();
             lblSubs = new Label();
@@ -45,7 +45,7 @@
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripProgressBar1 = new ToolStripProgressBar();
-            button1 = new Button();
+            BtnDownload = new Button();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
@@ -72,34 +72,34 @@
             txtSearch.Size = new Size(250, 23);
             txtSearch.TabIndex = 0;
             // 
-            // btnSearch
+            // BtnSearch
             // 
-            btnSearch.Location = new Point(262, 6);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(75, 23);
-            btnSearch.TabIndex = 1;
-            btnSearch.Text = "Search";
-            btnSearch.UseVisualStyleBackColor = true;
-            btnSearch.Click += btnSearch_Click;
+            BtnSearch.Location = new Point(262, 6);
+            BtnSearch.Name = "BtnSearch";
+            BtnSearch.Size = new Size(75, 23);
+            BtnSearch.TabIndex = 1;
+            BtnSearch.Text = "Search";
+            BtnSearch.UseVisualStyleBackColor = true;
+            BtnSearch.Click += BtnSearch_Click;
             // 
-            // lstSearchResults
+            // LsbSearchResults
             // 
-            lstSearchResults.FormattingEnabled = true;
-            lstSearchResults.Location = new Point(6, 35);
-            lstSearchResults.Name = "lstSearchResults";
-            lstSearchResults.Size = new Size(331, 94);
-            lstSearchResults.Sorted = true;
-            lstSearchResults.TabIndex = 2;
-            lstSearchResults.SelectedIndexChanged += lstSearchResults_SelectedIndexChanged;
+            LsbSearchResults.FormattingEnabled = true;
+            LsbSearchResults.Location = new Point(6, 35);
+            LsbSearchResults.Name = "LsbSearchResults";
+            LsbSearchResults.Size = new Size(331, 94);
+            LsbSearchResults.Sorted = true;
+            LsbSearchResults.TabIndex = 2;
+            LsbSearchResults.SelectedIndexChanged += LsbSearchResults_SelectedIndexChanged;
             // 
-            // lstEpisodes
+            // LsbEpisodes
             // 
-            lstEpisodes.FormattingEnabled = true;
-            lstEpisodes.Location = new Point(6, 135);
-            lstEpisodes.Name = "lstEpisodes";
-            lstEpisodes.SelectionMode = SelectionMode.MultiExtended;
-            lstEpisodes.Size = new Size(331, 94);
-            lstEpisodes.TabIndex = 3;
+            LsbEpisodes.FormattingEnabled = true;
+            LsbEpisodes.Location = new Point(6, 135);
+            LsbEpisodes.Name = "LsbEpisodes";
+            LsbEpisodes.SelectionMode = SelectionMode.MultiExtended;
+            LsbEpisodes.Size = new Size(331, 94);
+            LsbEpisodes.TabIndex = 3;
             // 
             // grpDetails
             // 
@@ -222,15 +222,15 @@
             toolStripProgressBar1.Name = "toolStripProgressBar1";
             toolStripProgressBar1.Size = new Size(100, 16);
             // 
-            // button1
+            // BtnDownload
             // 
-            button1.Location = new Point(599, 206);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 6;
-            button1.Text = "Download";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            BtnDownload.Location = new Point(599, 206);
+            BtnDownload.Name = "BtnDownload";
+            BtnDownload.Size = new Size(75, 23);
+            BtnDownload.TabIndex = 6;
+            BtnDownload.Text = "Download";
+            BtnDownload.UseVisualStyleBackColor = true;
+            BtnDownload.Click += this.BtnDownload_Click;
             // 
             // tabControl1
             // 
@@ -245,11 +245,11 @@
             // tabPage1
             // 
             tabPage1.Controls.Add(txtSearch);
-            tabPage1.Controls.Add(button1);
-            tabPage1.Controls.Add(lstSearchResults);
-            tabPage1.Controls.Add(lstEpisodes);
+            tabPage1.Controls.Add(BtnDownload);
+            tabPage1.Controls.Add(LsbSearchResults);
+            tabPage1.Controls.Add(LsbEpisodes);
             tabPage1.Controls.Add(grpDetails);
-            tabPage1.Controls.Add(btnSearch);
+            tabPage1.Controls.Add(BtnSearch);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -364,9 +364,9 @@
         #endregion
 
         private TextBox txtSearch;
-        private Button btnSearch;
-        private ListBox lstSearchResults;
-        private ListBox lstEpisodes;
+        private Button BtnSearch;
+        private ListBox LsbSearchResults;
+        private ListBox LsbEpisodes;
         private GroupBox grpDetails;
         private Label lblDubs;
         private Label lblSubs;
@@ -379,7 +379,7 @@
         private Label label1;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
-        private Button button1;
+        private Button BtnDownload;
         private ToolStripProgressBar toolStripProgressBar1;
         private TabControl tabControl1;
         private TabPage tabPage1;

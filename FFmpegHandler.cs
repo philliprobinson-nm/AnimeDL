@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnimeDL
 {
-    public class FFmpegHandler
+    public class FFmpegHandler(IConfigurationRoot configuration)
     {
-        private readonly IConfigurationRoot configuration;
-
-        public FFmpegHandler(IConfigurationRoot configuration)
-        {
-            this.configuration = configuration;
-        }
+        private readonly IConfigurationRoot configuration = configuration;
 
         public async Task DownloadVideoAsync(string url, string outputPath, IProgress<int> progress)
         {
@@ -50,7 +45,7 @@ namespace AnimeDL
             }
         }
 
-        private async Task ReadStreamAsync(StreamReader reader, IProgress<int> progress)
+        private static async Task ReadStreamAsync(StreamReader reader, IProgress<int> progress)
         {
             string? line; // Allow line to be nullable
 

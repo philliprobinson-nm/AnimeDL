@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnimeDL
 {
-    public class AnimeService
+    public class AnimeService(IConfigurationRoot configuration)
     {
-        private readonly IConfigurationRoot configuration;
-
-        public AnimeService(IConfigurationRoot configuration)
-        {
-            this.configuration = configuration;
-        }
+        private readonly IConfigurationRoot configuration = configuration;
 
         public async Task<SearchResponse?> SearchAnimeAsync(string query)
         {

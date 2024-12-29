@@ -36,7 +36,7 @@ namespace AnimeDL
 
         private void SettingsFieldChanged(object sender, EventArgs e)
         {
-            settingsManager.SaveSettings(cmbAniwatchProtocol.Text, txtAniwatchAddress.Text, txtAniwatchPort.Text, txtFFmpegPath.Text);
+            SettingsManager.SaveSettings(cmbAniwatchProtocol.Text, txtAniwatchAddress.Text, txtAniwatchPort.Text, txtFFmpegPath.Text);
         }
 
         private void UpdateStatus(string status)
@@ -44,26 +44,26 @@ namespace AnimeDL
             toolStripStatusLabel1.Text = status;
         }
 
-        private async void btnSearch_Click(object sender, EventArgs e)
+        private async void BtnSearch_Click(object sender, EventArgs e)
         {
             string query = txtSearch.Text;
 
             UpdateStatus($"Searching for {query}...");
             var searchResponse = await animeService.SearchAnimeAsync(query);
-            if (searchResponse?.Data?.Animes != null && lstSearchResults != null)
+            if (searchResponse?.Data?.Animes != null && LsbSearchResults != null)
             {
-                lstSearchResults.Items.Clear();
+                LsbSearchResults.Items.Clear();
                 foreach (var anime in searchResponse.Data.Animes)
                 {
-                    lstSearchResults.Items.Add(anime);
+                    LsbSearchResults.Items.Add(anime);
                 }
             }
             UpdateStatus($"Searching for {query}... Complete!");
         }
 
-        private async void lstSearchResults_SelectedIndexChanged(object sender, EventArgs e)
+        private async void LsbSearchResults_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SeriesDetails? model = (SeriesDetails?)lstSearchResults.SelectedItem;
+            SeriesDetails? model = (SeriesDetails?)LsbSearchResults.SelectedItem;
 
             if (model == null || string.IsNullOrEmpty(model.Id))
             {
@@ -78,20 +78,20 @@ namespace AnimeDL
 
             UpdateStatus($"Fetching episodes for {model.Name}...");
             var episodeResponse = await animeService.SearchAnimeEpisodesAsync(model.Id);
-            if (episodeResponse?.Data?.EpisodesDetails != null && lstEpisodes != null)
+            if (episodeResponse?.Data?.EpisodesDetails != null && LsbEpisodes != null)
             {
-                lstEpisodes.Items.Clear();
+                LsbEpisodes.Items.Clear();
                 foreach (var episode in episodeResponse.Data.EpisodesDetails)
                 {
-                    lstEpisodes.Items.Add(episode);
+                    LsbEpisodes.Items.Add(episode);
                 }
             }
             UpdateStatus($"Fetching episodes for {model.Name}... Complete!");
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void BtnDownload_Click(object sender, EventArgs e)
         {
-            var selEpisodes = lstEpisodes.SelectedItems.Cast<EpisodesDetails>().ToList();
+            var selEpisodes = LsbEpisodes.SelectedItems.Cast<EpisodesDetails>().ToList();
 
             if (selEpisodes.Count == 0)
             {
