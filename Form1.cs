@@ -318,7 +318,6 @@ namespace AnimeDL
         {
             string line;
             TimeSpan totalDuration = TimeSpan.Zero;
-            TimeSpan currentTime = TimeSpan.Zero;
 
             while ((line = await reader.ReadLineAsync()) != null)
             {
@@ -342,10 +341,9 @@ namespace AnimeDL
                     var timeString = line.Substring(timeIndex + 5, 11); // Extract the time part
                     if (TimeSpan.TryParse(timeString, out var time))
                     {
-                        currentTime = time;
                         if (totalDuration > TimeSpan.Zero)
                         {
-                            var percent = (int)((currentTime.TotalSeconds / totalDuration.TotalSeconds) * 100);
+                            var percent = (int)((time.TotalSeconds / totalDuration.TotalSeconds) * 100);
                             progress.Report(percent);
                         }
                     }
