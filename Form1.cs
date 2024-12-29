@@ -17,7 +17,7 @@ namespace AnimeDL
             InitializeComponent();
             settingsManager = new SettingsManager();
             animeService = new AnimeService(settingsManager.Configuration);
-            ffmpegHandler = new FFmpegHandler(settingsManager.Configuration["FFmpeg:Path"]);
+            ffmpegHandler = new FFmpegHandler(settingsManager.Configuration);
             toolStripStatusLabel1.Text = "";
 
             LoadSettings();

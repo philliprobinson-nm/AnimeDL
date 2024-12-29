@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -7,18 +8,18 @@ namespace AnimeDL
 {
     public class FFmpegHandler
     {
-        private readonly string ffmpegPath;
+        private readonly IConfigurationRoot configuration;
 
-        public FFmpegHandler(string ffmpegPath)
+        public FFmpegHandler(IConfigurationRoot configuration)
         {
-            this.ffmpegPath = ffmpegPath;
+            this.configuration = configuration;
         }
 
         public async Task DownloadVideoAsync(string url, string outputPath, IProgress<int> progress)
         {
             var processInfo = new ProcessStartInfo
             {
-                FileName = ffmpegPath,
+                FileName = configuration["FFmpeg:Path"],
                 Arguments = $"-i \"{url}\" -c copy \"{outputPath}\"",
                 UseShellExecute = false,
                 CreateNoWindow = true,
