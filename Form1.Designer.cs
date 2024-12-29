@@ -286,6 +286,7 @@
             txtFFmpegPath.Name = "txtFFmpegPath";
             txtFFmpegPath.Size = new Size(660, 23);
             txtFFmpegPath.TabIndex = 0;
+            txtFFmpegPath.TextChanged += SettingsFieldChanged;
             // 
             // groupBox1
             // 
@@ -315,6 +316,7 @@
             txtAniwatchPort.Name = "txtAniwatchPort";
             txtAniwatchPort.Size = new Size(53, 23);
             txtAniwatchPort.TabIndex = 2;
+            txtAniwatchPort.TextChanged += SettingsFieldChanged;
             // 
             // txtAniwatchAddress
             // 
@@ -322,6 +324,7 @@
             txtAniwatchAddress.Name = "txtAniwatchAddress";
             txtAniwatchAddress.Size = new Size(183, 23);
             txtAniwatchAddress.TabIndex = 1;
+            txtAniwatchAddress.TextChanged += SettingsFieldChanged;
             // 
             // cmbAniwatchProtocol
             // 
@@ -331,13 +334,7 @@
             cmbAniwatchProtocol.Name = "cmbAniwatchProtocol";
             cmbAniwatchProtocol.Size = new Size(64, 23);
             cmbAniwatchProtocol.TabIndex = 0;
-            //
-            // SettingsFieldChanged
-            //
-            txtAniwatchPort.TextChanged += SettingsFieldChanged;
-            txtAniwatchAddress.TextChanged += SettingsFieldChanged;
             cmbAniwatchProtocol.SelectedIndexChanged += SettingsFieldChanged;
-            txtFFmpegPath.TextChanged += SettingsFieldChanged;
             // 
             // Form1
             // 
@@ -347,7 +344,7 @@
             Controls.Add(tabControl1);
             Controls.Add(statusStrip1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "AnimeDL";
             grpDetails.ResumeLayout(false);
             grpDetails.PerformLayout();
             statusStrip1.ResumeLayout(false);
