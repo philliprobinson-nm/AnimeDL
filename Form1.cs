@@ -225,6 +225,11 @@ namespace AnimeDL
 
         private async Task DownloadAnimeEpisode(EpisodesDetails episode)
         {
+            var protocol = configuration["AniwatchSettings:Protocol"];
+            var address = configuration["AniwatchSettings:Address"];
+            var port = configuration["AniwatchSettings:Port"];
+            string url = $"{protocol}{address}:{port}/api/v2/hianime/episode/sources?animeEpisodeId={episode.episodeId}&category=dub";
+
             using (HttpClient client = new HttpClient())
             {
                 string url = $"{baseUrl}episode/sources?animeEpisodeId={episode.episodeId}&category=dub";
