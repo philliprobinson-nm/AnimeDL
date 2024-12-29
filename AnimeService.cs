@@ -15,7 +15,7 @@ namespace AnimeDL
             this.configuration = configuration;
         }
 
-        public async Task<SearchResponse> SearchAnimeAsync(string query)
+        public async Task<SearchResponse?> SearchAnimeAsync(string query)
         {
             var protocol = configuration["AniwatchSettings:Protocol"];
             var address = configuration["AniwatchSettings:Address"];
@@ -28,7 +28,7 @@ namespace AnimeDL
                 if (response.IsSuccessStatusCode)
                 {
                     string responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<SearchResponse>(responseData);
+                    return JsonConvert.DeserializeObject<SearchResponse?>(responseData);
                 }
                 else
                 {
@@ -38,7 +38,7 @@ namespace AnimeDL
             }
         }
 
-        public async Task<EpisodeResponse> SearchAnimeEpisodesAsync(string id)
+        public async Task<EpisodeResponse?> SearchAnimeEpisodesAsync(string id)
         {
             var protocol = configuration["AniwatchSettings:Protocol"];
             var address = configuration["AniwatchSettings:Address"];
@@ -51,7 +51,7 @@ namespace AnimeDL
                 if (response.IsSuccessStatusCode)
                 {
                     string responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<EpisodeResponse>(responseData);
+                    return JsonConvert.DeserializeObject<EpisodeResponse?>(responseData);
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace AnimeDL
             }
         }
 
-        public async Task<StreamResponse> GetEpisodeStreamAsync(string episodeId)
+        public async Task<StreamResponse?> GetEpisodeStreamAsync(string episodeId)
         {
             var protocol = configuration["AniwatchSettings:Protocol"];
             var address = configuration["AniwatchSettings:Address"];
@@ -74,7 +74,7 @@ namespace AnimeDL
                 if (response.IsSuccessStatusCode)
                 {
                     string responseData = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<StreamResponse>(responseData);
+                    return JsonConvert.DeserializeObject<StreamResponse?>(responseData);
                 }
                 else
                 {
